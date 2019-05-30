@@ -1,0 +1,399 @@
+﻿<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet" />
+	<script src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+		    $(":radio[name='organ.threeinone']").change(function(){
+		        $(":input[name='organ.socialCreditCode']").prop("disabled",$(this).val()=="0").parent().toggle($(this).val()=="1");
+                $(":input[name='organ.organCode']").prop("disabled",$(this).val()=="1").parent().toggle($(this).val()=="0");
+                $(":input[name='organ.businessLicenceNo']").prop("disabled",$(this).val()=="1").parent().toggle($(this).val()=="0");
+                $(":input[name='organ.taxregNo']").prop("disabled",$(this).val()=="1").parent().toggle($(this).val()=="0");
+                $("#drop_area3").parent(".upload-boxone").toggle($(this).val()=="0");
+                $("#drop_area4").parent(".upload-boxone").toggle($(this).val()=="0");
+			});
+		    $(":radio[name='isLo']").change(function(){
+		        $(".inform-box:eq(2)").toggle($(this).val()=="0").find(":input").prop("disabled",$(this).val()=="1");
+			});
+            $(".tab-menu ul li").click(function(){
+                $(this).addClass("on").siblings().removeClass("on"); //切换选中的按钮高亮状态
+                var index=$(this).index(); //获取被按下按钮的索引值，需要注意index是从0开始的
+                $(".tab-box > div").eq(index).show().siblings().hide(); //在按钮选中时在下面显示相应的内容，同时隐藏不需要的框架内容
+            });
+            var maodianID = window.location.hash;
+            if("#regist"==maodianID){
+                $(".tab-menu ul li:eq(1)").click();
+            }
+            $("a:contains('注册')").click(function(){
+                $(".tab-menu ul li:eq(1)").click();
+			})
+		});
+	</script>
+	<title>电子保函服务平台</title>
+</head>
+
+<body style="background:#f7f7f7">
+	<div class="home-top">
+		<span>电子保函服务平台</span>
+		<ul class="index-nav">
+				<li class="nav-on"><a href="/index.html">首页</a></li>
+				<!--<li><a href="#">理赔服务</a></li>
+				<li><a href="#">法律法规</a></li>-->
+				<li><a href="/home.html">保单验真</a></li>
+				<!--<li><a href="#">关于我们</a></li>-->
+			</ul>
+		<div class="home-top-rt">
+			<a href="/home.html"><i class="fa fa-home"></i>&nbsp;返回首页</a>|
+			<a href="/login.html" class="margin-l-10">登录</a><a href="/login.html#regist">注册</a>
+		</div>
+	</div>
+	<div class="login-box">
+		<div class="tab-menu">
+			<ul>
+				<li class="on">登录</li>
+				<li>注册</li>
+			</ul>
+		</div>
+		<div class="tab-box">
+			<div style="display: block;padding: 0 270px;">
+				<form action="/doLogin.html" method="POST">
+					<ul class="login-ul">
+						<li>
+							<span>用户名/手机号</span>
+							<input name="username" placeholder="请输入用户名/手机号" >
+						</li>
+						<li>
+							<span>密码</span>
+							<input name="password" placeholder="请输入登录密码" >
+						</li>
+					</ul>
+					<div class="submit-box">
+						<button>立即提交</button>
+						<a href="#" class="margin-l-10 color3">忘记密码？</a>
+					</div>
+				</form>
+			</div>
+			<div>
+				<form action="/regist.html" method="POST">
+					<ul class="login-ul">
+						<li>
+							<span>用户名</span>
+							<input name="username" placeholder="" >
+							<i>*将会成为您唯一的登入名</i>
+						</li>
+						<li>
+							<span>手机号</span>
+							<input name="mobile" />
+							<i>*</i>
+						</li>
+						<li>
+							<span>短信验证码</span>
+							<input name="smsCode"/>
+							<a href="#" class="yzm-btn">获取验证码</a>
+						</li>
+						<li>
+							<span>邮箱</span>
+							<input name="email"/>
+							<i>*</i>
+						</li>
+						<li>
+							<span>密码</span>
+							<input name="password"/>
+							<i>*必须多于8个字符，并包含大写，小写字母和数字</i>
+						</li>
+						<li>
+							<span>确认密码</span>
+							<input name="repeatPassword"/>
+							<i>*</i>
+						</li>
+						<li>
+							<span>图形验证码</span>
+							<input id="code_input" />
+							<div style="float: right;margin-top: 5px; margin-left: 10px">
+							  <div id="v_container" style="height: 34px;width: 100%;"></div>
+							</div>
+						</li>
+					</ul>
+					<div class="inform-box" >
+						<h3 class="tit-h3">企业信息</h3>
+						<ul class="reg-ul">
+							<li>
+								<span>认证类型</span>
+								<label>
+									<input type="radio" name="organ.gradeId" value = "1" checked>非担保机构
+									<input type="radio" name="organ.gradeId" value = "2">担保机构
+								</label>
+								<i>*</i>
+							</li>
+							<li>
+								<span>机构类型</span>
+								<select name="organ.industryType">
+									<option value="">请选择机构类型</option>
+									<option value="1">承建单位/承包商/供货商</option>
+									<option value="2">建设单位/业主/开发商</option>
+									<option value="5">交易中心</option>
+									<option value="6">招标代理</option>
+								</select>
+								<i>*</i>
+							</li>
+							<li>
+								<span>企业名称</span>
+								<input name="organ.organName" placeholder="请输入企业注册名称" class="input-long" />
+								<i>*</i>
+							</li>
+							<li>
+								<span>企业地址</span>
+								<input name="organ.address" placeholder="请输入企业地址" class="input-long" />
+								<i>*</i>
+							</li>
+							<li>
+								<span>开户许可证</span>
+								<input name="organ.bankRegNo" placeholder="请输入开户许可证核准号" />
+								<i>*</i>
+							</li>
+							<li style="position: relative;">
+								<span>注册资本</span>
+								<input name="organ.regMoney" placeholder="请输入注册资本" />
+								<i>*</i>
+								<b class="label-b">万元</b>
+							</li>
+							<li>
+								<span>组织形式</span>
+								<select name="organ.organForm">
+									<option value="">请选择组织形式</option>
+									<option value="1">国有或国有控股</option>
+									<option value="2">股份有限公司</option>
+									<option value="3">有限责任公司</option>
+									<option value="4">中外合资</option>
+									<option value="5">外商融资</option>
+									<option value="6">股份合作</option>
+									<option value="7">集体</option>
+									<option value="8">合伙</option>
+									<option value="9">其他</option>
+								</select>
+								<i>*</i>
+							</li>
+							<li>
+								<span>三证合一</span>
+								<label>
+									<input type="radio" name="organ.threeinone" value = "1" checked>是
+									<input type="radio" name="organ.threeinone" value = "0">否
+								</label>
+								<i>*</i>
+							</li>
+							<li>
+								<span>信用代码</span>
+								<input name="organ.socialCreditCode" placeholder="请输入统一信用代码" class="input-long" />
+								<i>*</i>
+							</li>
+							<li style="display: none;">
+								<span>组织机构代码</span>
+								<input name="organ.organCode" placeholder="请输入组织机构代码" class="input-long" />
+								<i>*</i>
+							</li>
+							<li style="display: none;">
+								<span>营业执照编号</span>
+								<input name="organ.businessLicenceNo" placeholder="请输入营业执照编号" class="input-long" />
+								<i>*</i>
+							</li>
+							<li style="display: none;">
+								<span>税务登记号</span>
+								<input name="organ.taxregNo" placeholder="请输入税务登记号" class="input-long" />
+								<i>*</i>
+							</li>
+							<div class="upload-img">
+								<span>上传证件</span>
+								<div class="upload-box">
+									<div class="upload-boxone">
+										<div id="drop_area"></div>
+										<p>营业执照副本复印件加盖公章</p>
+									</div>
+									<div class="upload-boxone">
+										<div id="drop_area1"></div>
+										<p>银行开户许可证复印件加盖公章</p>
+									</div>
+									<div class="upload-boxone">
+										<div id="drop_area2"></div>
+										<p>法人身份证正反面复印在一页，加盖公章</p>
+									</div>
+									<div class="upload-boxone" style="display: none">
+										<div id="drop_area3"></div>
+										<p>营业执照副本复印件加盖公章</p>
+									</div>
+									<div class="upload-boxone" style="display: none">
+										<div id="drop_area4"></div>
+										<p>营业执照副本复印件加盖公章</p>
+									</div>
+									<div class="zhu" style="clear: both;">
+										注：必须填，所传证件必须都加盖公章，图片格式支持：jpg,jpeg,png,大小不能超过2M
+									</div>
+								</div>
+							</div>
+						</ul>
+					</div>
+					<div class="inform-box" >
+						<h3 class="tit-h3">法人信息</h3>
+						<ul class="reg-ul">
+						<li>
+							<span>法人即运营人</span>
+							<label>
+								<input type="radio" name="isLo" value = "0" checked>否
+								<input type="radio" name="isLo" value = "1">是
+							</label>
+							<i>*</i>
+						</li>
+						<li>
+							<span>法人姓名</span>
+							<input name="legal.realName" placeholder="请输入法人姓名" />
+							<i>*</i>
+						</li>
+						<li>
+							<span>手机号码</span>
+							<input name="legal.phone" placeholder="请输入法人手机号码" />
+							<i>*</i>
+						</li>
+						<li>
+							<span>身份证号</span>
+							<input name="legal.identityNo" placeholder="请输入法人身份证号"/>
+							<i>*</i>
+						</li>
+					</ul>
+					</div>
+					<div class="inform-box" >
+						<h3 class="tit-h3">授权运营人信息</h3>
+						<ul class="reg-ul">
+						<li>
+							<span>运营人姓名</span>
+							<input name="operator.realName" placeholder="运营人姓名" />
+							<i>*</i>
+						</li>
+						<li>
+							<span>运营人电话</span>
+							<input name="operator.phone" placeholder="请输入运营人电话" />
+							<i>*</i>
+						</li>
+						<li>
+							<span>身份证号</span>
+							<input name="operator.identityNo" placeholder="请输入运营人身份证号" class="input-long"/>
+							<i>*</i>
+						</li>
+						<div class="upload-img">
+							<span>上传证件</span>
+							<div class="upload-box">
+								<div class="upload-boxone">
+									<div id="drop_area5"></div>
+									<p>运营人身份证正反面复印在一页，加盖公章</p>
+								</div>
+								<div class="upload-boxone">
+									<div id="drop_area6"></div>
+									<p>公司授权运营人运营授权书，加盖公章</p>
+								</div>
+								<div class="zhu" style="clear: both;">
+									注：必须填，所传证件必须都加盖公章，图片格式支持：jpg,jpeg,png,大小不能超过2M
+								</div>
+							</div>
+						</div>
+					</ul>
+					</div>
+					<div class="margin-t-15">
+						<label><input type="checkbox"/>我已同意并阅读<a href="#" class="color3">《用户服务协议》</a></label>
+					</div>
+					<div class="submit-box">
+						<button id="my_button">立即注册</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="footer-h">版权所有：山西伟鑫科创科技有限公司</div>
+ <!-- 高度计算 -->
+<script>
+	//监听
+	window.onresize = function () {
+		changeHeight();
+	};
+	function changeHeight() {
+		var h = $(window).height();//获取页面可见高度 
+		var h1 = (h - 60-60-122) + "px";
+		$(".login-box").css("min-height", h1);
+	};
+
+	//页面加载时
+	$(function () {
+		var h = $(window) .height();//获取页面可见高度 
+		var h1 = (h - 60-60-122) + "px";
+		$(".login-box").css("min-height", h1);
+	});
+</script> 
+<!--验证码--> 
+<script src="js/gVerify.js"></script> 
+<!--<script>
+			var verifyCode = new GVerify("v_container");
+
+			document.getElementById("my_button").onclick = function(){
+				var res = verifyCode.validate(document.getElementById("code_input").value);
+				if(res){
+					alert("验证正确");
+				}else{
+					alert("验证码错误");
+				}
+			}
+</script>-->
+<!--上传图片-->
+<script src="js/upload.js"></script>
+<script type="text/javascript">
+    var dragImgUpload = new DragImgUpload("#drop_area",{
+        callback:function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+    var dragImgUpload = new DragImgUpload("#drop_area1",{
+        callback:function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+    var dragImgUpload = new DragImgUpload("#drop_area2",{
+        callback:function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+    var dragImgUpload = new DragImgUpload("#drop_area3",{
+        callback:function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+    var dragImgUpload = new DragImgUpload("#drop_area4",{
+        callback:function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+    var dragImgUpload = new DragImgUpload("#drop_area5",{
+        callback:function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+    var dragImgUpload = new DragImgUpload("#drop_area6",{
+        callback:function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files[0];
+            console.log(file.name);
+        }
+    });
+</script>
+</body>
+</html>
